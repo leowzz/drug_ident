@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <title>药品识别</title>
+    <style>
+        .demo {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            min-width: 1000px;
+            z-index: -10;
+            zoom: 1;
+            background-color: #fff;
+            background: url(img/background_.jpg);
+            background-repeat: no-repeat;
+            background-size: cover;
+            -webkit-background-size: cover;
+            -o-background-size: cover;
+            background-position: center 0;
+        }
+
+        .demo1 {
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+    </style>
+    <script src="js/jquery-1.11.0.js"></script>
+    <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+    <div class="demo">
+        <div class="demo1"></div>
+    </div>
+    <h1 style="font-size: 4rem; color: #2F4F4F">药物识别</h1>
+
+    <div id="container" style="width:1200px">
+
+        <div id="header" style="background-color:#B0E0E6;">
+            <h1 style="margin-bottom:0;">选择你要识别的药品图片（可以是说明书、写着注意事项的图片）</h1>
+        </div>
+
+        <p style="font-size: 20px;">选择要识别的药物图片
+            <input type="file" id="image">
+        </p>
+        <div id="btns">
+
+            <button onclick="ocr()">识别文字</button>
+            <br>
+            <button onclick="ocr_speech()">识别并播放</button>
+            <br>
+
+        </div>
+    </div>
+
+
+    <!-- 设置一个音频播放组件占位 -->
+    <div style="width: 300px; " id="myaudio_div">
+        <audio id="myaudio" controls style="display:none; width: 300px;">
+            您的浏览器不支持audio元素组件
+        </audio>
+    </div>
+
+    <div id="show">
+        <h1 style="margin-bottom:0;font-size: 50px;">药品信息</h1>
+        <textarea id="yaopin" name="textarea" cols="50" rows="10"> </textarea>
+    </div>
+    <script>
+
+        function ocr_speech() {
+            var formData = new FormData();
+            formData.append("image", $("#image")[0].files[0]);
+            $.ajax({
+                url: '/ocr_speech', /*接口域名地址*/
+                type: 'post', // http的协议规定，上传文件时，必须用 post 请求
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (res) {
+                    console.log(res)
+                    // loading加载图片隐藏
+                    $("#loadding").css("display", "none");
+                    // 设置页面的audio元素组件实现语音自动播报
+                    $('#myaudio').css("display", "block");
+                    $('#myaudio').attr("autobuffer", false);
+                    $('#myaudio').attr("src", "");
+                    $('#myaudio').attr("src", res.url);
+                    document.getElementById("myaudio").play(); // 启动播放
+                    $("#yaopin").val(res.text)
+                },
+                error: function (xhr, textStatus) { //statusCode是 2xx 或 304 以外的值时，执行该函数
+                    console.log('错误')
+                    console.log(xhr)
+                    console.log(textStatus)
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert(XMLHttpRequest);
+                }
+            })
+
+        }
+
+        function ocr() {
+            var formData = new FormData();
+            formData.append("image", $("#image")[0].files[0]);
+            $.ajax({
+                url: '/ocr', /*接口域名地址*/
+                type: 'post', // http的协议规定，上传文件时，必须用 post 请求
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (res) {
+                    console.log(res)
+                    $("#yaopin").val(res.text)
+
+                },
+                error: function (xhr, textStatus) { //statusCode是 2xx 或 304 以外的值时，执行该函数
+                    console.log('错误')
+                    console.log(xhr)
+                    console.log(textStatus)
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert(XMLHttpRequest);
+                }
+            })
+
+        }
+
+    </script>
+</body>
+
+</html>

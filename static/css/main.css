@@ -1,0 +1,74 @@
+beijing.jpg* {
+    margin: 0 auto;
+    padding: 0 auto;
+}
+
+#fixed-pos {
+    position: fixed;
+    top: 400px;
+}
+
+/* button
+{
+ background-color: rgb(238, 232, 232);
+    color: black;
+    height: 50px;
+} */
+
+#yaopin {
+    font-size: 40px;
+    height: 600px;
+    width: 1200px;
+
+}
+
+#show {
+    position: absolute;
+    right: 120px;
+    top: 200px;
+
+}
+.btns{
+    padding-top: 30px;
+}
+button {
+    background-color: #f66f6a;
+    color: white;
+    width: 100px;
+    height: 45px;
+    border: 0;
+    font-size: 16px;
+    box-sizing: content-box;
+    border-radius: 5px;
+
+}
+#myaudio_div{
+    position: absolute;
+    top: 500px;
+    left: 30px;
+}
+button:hover {
+    background-color: #a54b4a;
+}
+
+button {
+    background-color: dodgerblue;
+    color: white;
+    width: 100px;
+    height: 47px;
+    border: 0;
+    font-size: 16px;
+    border-radius: 30px;
+    margin-top: 30px;
+    margin-left: 20px;
+}
+
+.button {
+    background-color: dodgerblue;
+    color: white;
+    width: 100px;
+    height: 47px;
+    border: 0;
+    font-size: 16px;
+    border-radius: 30px;
+}
